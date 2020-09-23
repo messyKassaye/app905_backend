@@ -41,7 +41,14 @@ class DistrictControllingAreaController extends Controller
         $area->district_id = $request->district_id;
         $area->region_id = $request->region_id;
         $area->sub_city_zone_id = $request->sub_city_zone_id;
+        $area->woreda = $request->woreda;
+        $area->specific_name = $request->specific_name;
         if($area->save()){
+            return response()->json(['status'=>true,'message'=>'District areas are stored successfully']);
+
+        }
+       
+       /* if($area->save()){
             $woredaData = explode(',',$request->woreda);
             for($i=0;$i<count($woredaData);$i++){
                 $districWoreda = new DistrictWoreda();
@@ -55,10 +62,7 @@ class DistrictControllingAreaController extends Controller
                  $specificName->name = $specificNameData[$j];  
                  $area->specificName()->save($specificName);
             }
-
-            return response()->json(['status'=>true,'message'=>'District areas are stored successfully']);
-
-        }
+        }*/
         
 
     }

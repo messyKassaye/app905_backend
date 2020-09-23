@@ -31,6 +31,7 @@ class UserResource extends JsonResource
             ],
             'relations' => [
                 'role' => $this->role,
+                'district'=>$this->district
             ],
             'helpers' => [
                 'today_date' => Carbon::today()->toDateString()

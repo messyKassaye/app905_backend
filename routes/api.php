@@ -49,9 +49,15 @@ $api->version('v1', function (Router $api) {
            $api->resource('district_areas','App\\Api\\V1\\Controllers\\DistrictControllingAreaController');
         });
 
-        $api->resource('faults','App\\Api\\V1\\Controllers\\FaultController');
+        //admin routes
+        $api->group(['prefix'=>'manager','middleware'=>'manager'],function (Router $api){
+             $api->resource('technicians','App\\Api\\V1\\Controllers\\ManagersController');
+          });
 
-       
+        $api->resource('groups','App\\Api\\V1\\Controllers\\GroupController');
+        $api->resource('faults','App\\Api\\V1\\Controllers\\FaultController');
+        $api->resource('fault_types','App\\Api\\V1\\Controllers\\FaultTypeController');
+
    });
 
    $api->get('accident_types','App\\Api\\V1\\Controllers\\FaultTypeController@index');

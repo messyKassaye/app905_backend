@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\District;
 use App\Role;
 use App\Http\Resources\ManagersResource;
+use Auth;
 class ManagersController extends Controller
 {
     /**
@@ -18,7 +19,8 @@ class ManagersController extends Controller
     public function index()
     {
         //
-        $user = User::where('id','!=',1)->get();
+        $userId = Auth::guard()->user()->id;
+        $user = User::where('id','!=',1)->where('registered_by',$userId)->get();
         return ManagersResource::collection($user);
     }
 
@@ -42,15 +44,20 @@ class ManagersController extends Controller
     {
         //
         $user = new User();
+        $user->registered_by = Auth::user()->id;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->password = $request->password;
         if($user->save()){
-            $user->role()->sync(Role::find(2));
+            if(Auth::user()->role[0]->id==1){
+                $user->role()->sync(Role::find(2));
+            }else{
+                $user->role()->sync(Role::find(3));
+            }
             return response()->json(['status'=>true,
-            'message'=>'Manager is stored successfully']);
+            'message'=>'Registered successfully']);
         }
     }
 

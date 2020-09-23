@@ -18,6 +18,8 @@ class CreateDistrictControllingAreasTable extends Migration
             $table->integer('district_id');
             $table->integer('region_id');
             $table->integer('sub_city_zone_id');
+            $table->json('woreda');
+            $table->json('specific_name');
             $table->timestamps();
         });
     }

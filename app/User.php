@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\BankAccount;
 use App\District;
+use App\Group;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
@@ -48,6 +49,9 @@ class User extends Authenticatable implements JWTSubject
          return $this->belongsToMany(District::class);
      }
 
+     public function group(){
+         return $this->belongsToMany(Group::class);
+     }
 
     public function setPasswordAttribute($value)
     {
