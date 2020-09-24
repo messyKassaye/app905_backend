@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\FaultType;
 use App\RegionWoredZoneCity;
+use App\Group;
 class Fault extends Model
 {
     //
@@ -23,5 +24,9 @@ class Fault extends Model
 
     public function woreda(){
         return $this->belongsTo(RegionWoredZoneCity::class,'woreda_city_id');
+    }
+
+    public function group(){
+        return $this->belongsToMany(Group::class);
     }
 }

@@ -2,12 +2,9 @@
 
 namespace App\Api\V1\Controllers;
 
-use App\Group;
 use Illuminate\Http\Request;
-use Auth;
-use App\Http\Resources\GroupResource;
 use Illuminate\Support\Facades\DB;
-class GroupController extends Controller
+class AccidentGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +14,10 @@ class GroupController extends Controller
     public function index()
     {
         //
-        $groups = Group::where('district_id',
-        Auth::guard()->user()->district[0]->id)->get();
-       
-        return GroupResource::collection($groups);
+        $group = DB::table('groups')->join('accident_group',function($join){
+            $join->on('accident_group.group_id','groups.id');
+        })->where('accident_group.status',false)->get();
+        return $group;
     }
 
     /**
@@ -42,33 +39,29 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         //
-        $group = new Group();
-        $group->name = $request->name;
-        $group->district_id = $request->district_id;
-        if($group->save()){
-            return response()->json(['status'=>true,'message'=>'Group is created successfully']);
-        }
+        DB::insert('insert into accident_goupr(group_id,accident_id) values(?,?)',[$request->group_id,$request->accident_id]);
+        return response()->json(['status'=>true,'message'=>'Assigned successfully']);
+    
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Group  $group
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-        
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Group  $group
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Group $group)
+    public function edit($id)
     {
         //
     }
@@ -77,26 +70,21 @@ class GroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Group  $group
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
-        $group = Group::find($id);
-        $group->status = $request->status;
-        if($group->save()){
-            return response()->json(['status'=>true,'message'=>'Group updated successfully']);
-        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Group  $group
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Group $group)
+    public function destroy($id)
     {
         //
     }

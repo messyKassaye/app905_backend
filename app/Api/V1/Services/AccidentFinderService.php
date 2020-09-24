@@ -10,7 +10,7 @@ class AccidentFinderService {
     public function checkAccidentsBySpecificName($name){
         $similarityPercentage = 0.0;
         $accidents = Fault::where('status',false)->with('faultType')
-        ->with('region')->with('subcity')->with('woreda')->get();
+        ->with('region')->with('subcity')->with('woreda')->with('group')->get();
         $accidentsArray = array();
         foreach($accidents as $accident){
             similar_text($accident->specific_name,$name,$similarityPercentage);

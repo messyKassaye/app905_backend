@@ -52,7 +52,9 @@ $api->version('v1', function (Router $api) {
         //admin routes
         $api->group(['prefix'=>'manager','middleware'=>'manager'],function (Router $api){
              $api->resource('technicians','App\\Api\\V1\\Controllers\\ManagersController');
-          });
+             $api->resource('group_user','App\\Api\\V1\\Controllers\\GroupUserController');
+             $api->resource('fault_group','App\\Api\\V1\\Controllers\\FaultGroupController');
+         });
 
         $api->resource('groups','App\\Api\\V1\\Controllers\\GroupController');
         $api->resource('faults','App\\Api\\V1\\Controllers\\FaultController');

@@ -57,6 +57,7 @@ class AccidentEvent implements ShouldBroadcastNow
             'region'=>$this->accident->region,
             'subcity'=>$this->accident->subcity,
             'woreda'=>$this->accident->woreda,
+            'group'=>$this->accident->group,
             'districts'=>$this->getDistrict($this->accident->region_id,$this->accident->sub_city_zone_id,$this->accident->specific_name,$this->accident->woreda_city_id)
         ];
     }
